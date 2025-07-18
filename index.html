@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>German Genes - Genealogy Research</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.5/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+    }
+    .section {
+      scroll-margin-top: 80px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function NavBar() {
+      const scrollToSection = (id) => {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      };
+
+      return (
+        <nav className="bg-gray-800 text-white fixed w-full top-0 z-10 shadow-lg">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16">
+              <div className="flex items-center">
+                <h1 className="text-2xl font-bold">German Genes</h1>
+              </div>
+              <div className="flex items-center space-x-4">
+                <button onClick={() => scrollToSection('home')} className="hover:bg-gray-700 px-3 py-2 rounded">Home</button>
+                <button onClick={() => scrollToSection('german-genealogy')} className="hover:bg-gray-700 px-3 py-2 rounded">German Genealogy</button>
+                <button onClick={() => scrollToSection('dna-genealogy')} className="hover:bg-gray-700 px-3 py-2 rounded">DNA in Genealogy</button>
+                <button onClick={() => scrollToSection('ai-genealogy')} className="hover:bg-gray-700 px-3 py-2 rounded">AI in Genealogy</button>
+                <button onClick={() => scrollToSection('resources')} className="hover:bg-gray-700 px-3 py-2 rounded">Resources</button>
+              </div>
+            </div>
+          </div>
+        </nav>
+      );
+    }
+
+    function HeroSection() {
+      return (
+        <div id="home" className="bg-blue-100 py-20 text-center">
+          <h2 className="text-4xl font-bold mb-4">Discover Your German Roots</h2>
+          <p className="text-lg max-w-2xl mx-auto">
+            GermanGenes.us is your gateway to exploring German genealogy, leveraging DNA testing, and harnessing AI for family history research.
+          </p>
+          <img src="https://via.placeholder.com/600x300?text=Family+Tree" alt="Family Tree" className="mt-6 mx-auto rounded-lg shadow-lg" />
+        </div>
+      );
+    }
+
+    function GermanGenealogySection() {
+      return (
+        <div id="german-genealogy" className="section py-16 px-4 max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold mb-6">German Genealogical Research</h2>
+          <p className="text-lg mb-4">
+            Researching German ancestry requires knowledge of specific regions and historical records, as Germany lacks national indexes. Key strategies include:
+          </p>
+          <ul className="list-disc pl-6 mb-4">
+            <li>Identify the specific town or village of origin, as records are often localized.</li>
+            <li>Use church records (baptisms, marriages, burials) from sites like Archion.de.</li>
+            <li>Explore gazetteers like Meyers Gazetteer to understand historical place names.</li>
+            <li>Check immigration records, as many Germans emigrated to the U.S. and other countries.</li>
+          </ul>
+          <p className="text-lg mb-4">
+            Join communities like the German Genealogy Group for support and resources.
+          </p>
+          <img src="https://via.placeholder.com/400x200?text=German+Records" alt="German Records" className="my-6 rounded-lg shadow-lg" />
+        </div>
+      );
+    }
+
+    function DNAGenealogySection() {
+      return (
+        <div id="dna-genealogy" className="section py-16 px-4 max-w-7xl mx-auto bg-gray-100">
+          <h2 className="text-3xl font-bold mb-6">DNA in Genealogical Research</h2>
+          <p className="text-lg mb-4">
+            DNA testing has revolutionized genealogy by uncovering biological connections. Key tips for using DNA:
+          </p>
+          <ul className="list-disc pl-6 mb-4">
+            <li>Take an autosomal DNA test with providers like AncestryDNA, MyHeritage, or FamilyTreeDNA.</li>
+            <li>Use GEDmatch to compare DNA across testing companies for broader matches.</li>
+            <li>Understand shared DNA segments to estimate relationships (e.g., centimorgans for cousins).</li>
+            <li>Join surname or haplogroup projects to connect with others researching similar lines.</li>
+          </ul>
+          <p className="text-lg mb-4">
+            Always verify DNA matches with traditional records to confirm relationships.
+          </p>
+          <img src="https://via.placeholder.com/400x200?text=DNA+Helix" alt="DNA Helix" className="my-6 rounded-lg shadow-lg" />
+        </div>
+      );
+    }
+
+    function AIGenealogySection() {
+      return (
+        <div id="ai-genealogy" className="section py-16 px-4 max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold mb-6">AI in Genealogical Research</h2>
+          <p className="text-lg mb-4">
+            Artificial Intelligence is transforming genealogy by automating tedious tasks and uncovering insights:
+          </p>
+          <ul className="list-disc pl-6 mb-4">
+            <li>Use AI tools like MyHeritage’s AI Record Finder™ for conversational record searches.</li>
+            <li>Leverage NLP (Natural Language Processing) to transcribe and translate old German scripts.</li>
+            <li>Employ AI to generate family history narratives or biographies (e.g., via ChatGPT).</li>
+            <li>Always verify AI-generated data against original records to ensure accuracy.</li>
+          </ul>
+          <p className="text-lg mb-4">
+            AI can save time but should complement, not replace, traditional research methods.
+          </p>
+          <img src="https://via.placeholder.com/400x200?text=AI+Analysis" alt="AI Analysis" className="my-6 rounded-lg shadow-lg" />
+        </div>
+      );
+    }
+
+    function ResourcesSection() {
+      return (
+        <div id="resources" className="section py-16 px-4 max-w-7xl mx-auto bg-gray-100">
+          <h2 className="text-3xl font-bold mb-6">Resources</h2>
+          <p className="text-lg mb-4">Explore these trusted websites for German genealogy, DNA, and AI tools:</p>
+          <ul className="list-disc pl-6 mb-4">
+            <li><a href="https://www.familysearch.org" className="text-blue-600 hover:underline">FamilySearch</a> - Free global records and collaborative family trees.</li>
+            <li><a href="https://www.myheritage.com" className="text-blue-600 hover:underline">MyHeritage</a> - AI-powered record searches and DNA matching.</li>
+            <li><a href="https://www.ancestry.com" className="text-blue-600 hover:underline">Ancestry</a> - Extensive German records and DNA testing.</li>
+            <li><a href="https://www.gedmatch.com" className="text-blue-600 hover:underline">GEDmatch</a> - Free DNA comparison tools.</li>
+            <li><a href="https://www.archion.de" className="text-blue-600 hover:underline">Archion</a> - German church records.</li>
+            <li><a href="https://www.germangenealogygroup.com" className="text-blue-600 hover:underline">German Genealogy Group</a> - Community support and resources.</li>
+          </ul>
+        </div>
+      );
+    }
+
+    function Footer() {
+      return (
+        <footer className="bg-gray-800 text-white py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p className="text-center">Contact us: info@germangenes.us</p>
+            <p className="text-center mt-2">
+              &copy; 2025 German Genes. All rights reserved.
+            </p>
+            <div className="flex justify-center space-x-4 mt-4">
+              <a href="https://www.familysearch.org" className="text-blue-300 hover:underline">FamilySearch</a>
+              <a href="https://www.myheritage.com" className="text-blue-300 hover:underline">MyHeritage</a>
+              <a href="https://www.ancestry.com" className="text-blue-300 hover:underline">Ancestry</a>
+            </div>
+          </div>
+        </footer>
+      );
+    }
+
+    function App() {
+      return (
+        <div>
+          <NavBar />
+          <div className="pt-16">
+            <HeroSection />
+            <GermanGenealogySection />
+            <DNAGenealogySection />
+            <AIGenealogySection />
+            <ResourcesSection />
+            <Footer />
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
