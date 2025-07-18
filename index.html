@@ -1,179 +1,1042 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>German Genes - Genealogy Research</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.5/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-    }
-    .section {
-      scroll-margin-top: 80px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German Genes - Central European Genealogy Research</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #dc2626;
+            --accent-color: #059669;
+            --background-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --warm-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #ffffff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo::before {
+            content: "🌳";
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-bg);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: var(--background-light);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .icon-research { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .icon-dna { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .icon-ai { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .icon-tools { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .icon-blog { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .icon-community { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        /* Research Guides Section */
+        .research-guides {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .guide-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .guide-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0,0 L50,100 L100,0 Z" fill="white" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+        
+        .guide-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .country-flag {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .guide-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .guide-card p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .guide-topics {
+            list-style: none;
+        }
+        
+        .guide-topics li {
+            padding: 0.25rem 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .guide-topics li::before {
+            content: "▸ ";
+            margin-right: 0.5rem;
+        }
+        
+        /* Blog Section */
+        .blog-preview {
+            padding: 80px 0;
+            background: var(--background-light);
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .blog-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .blog-image {
+            height: 200px;
+            background: var(--gradient-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .blog-content {
+            padding: 1.5rem;
+        }
+        
+        .blog-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .blog-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .blog-card p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+        
+        .read-more:hover {
+            gap: 0.75rem;
+        }
+        
+        /* Tools Section */
+        .tools-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .tool-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(240, 147, 251, 0.4);
+        }
+        
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .tool-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tool-card p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            line-height: 1.8;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero {
+                padding: 100px 0 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .features,
+            .research-guides,
+            .blog-preview,
+            .tools-section {
+                padding: 60px 0;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Interactive animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Loading animation for tools */
+        .tool-loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .tool-loading::after {
+            content: "🔄";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-  <div id="root"></div>
-
-  <script type="text/babel">
-    function NavBar() {
-      const scrollToSection = (id) => {
-        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-      };
-
-      return (
-        <nav className="bg-gray-800 text-white fixed w-full top-0 z-10 shadow-lg">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex items-center">
-                <h1 className="text-2xl font-bold">German Genes</h1>
-              </div>
-              <div className="flex items-center space-x-4">
-                <button onClick={() => scrollToSection('home')} className="hover:bg-gray-700 px-3 py-2 rounded">Home</button>
-                <button onClick={() => scrollToSection('german-genealogy')} className="hover:bg-gray-700 px-3 py-2 rounded">German Genealogy</button>
-                <button onClick={() => scrollToSection('dna-genealogy')} className="hover:bg-gray-700 px-3 py-2 rounded">DNA in Genealogy</button>
-                <button onClick={() => scrollToSection('ai-genealogy')} className="hover:bg-gray-700 px-3 py-2 rounded">AI in Genealogy</button>
-                <button onClick={() => scrollToSection('resources')} className="hover:bg-gray-700 px-3 py-2 rounded">Resources</button>
-              </div>
-            </div>
-          </div>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">German Genes</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#research">Research Guides</a></li>
+                <li><a href="#dna">DNA & AI</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu">☰</button>
         </nav>
-      );
-    }
+    </header>
 
-    function HeroSection() {
-      return (
-        <div id="home" className="bg-blue-100 py-20 text-center">
-          <h2 className="text-4xl font-bold mb-4">Discover Your German Roots</h2>
-          <p className="text-lg max-w-2xl mx-auto">
-            GermanGenes.us is your gateway to exploring German genealogy, leveraging DNA testing, and harnessing AI for family history research.
-          </p>
-          <img src="https://via.placeholder.com/600x300?text=Family+Tree" alt="Family Tree" className="mt-6 mx-auto rounded-lg shadow-lg" />
-        </div>
-      );
-    }
-
-    function GermanGenealogySection() {
-      return (
-        <div id="german-genealogy" className="section py-16 px-4 max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6">German Genealogical Research</h2>
-          <p className="text-lg mb-4">
-            Researching German ancestry requires knowledge of specific regions and historical records, as Germany lacks national indexes. Key strategies include:
-          </p>
-          <ul className="list-disc pl-6 mb-4">
-            <li>Identify the specific town or village of origin, as records are often localized.</li>
-            <li>Use church records (baptisms, marriages, burials) from sites like Archion.de.</li>
-            <li>Explore gazetteers like Meyers Gazetteer to understand historical place names.</li>
-            <li>Check immigration records, as many Germans emigrated to the U.S. and other countries.</li>
-          </ul>
-          <p className="text-lg mb-4">
-            Join communities like the German Genealogy Group for support and resources.
-          </p>
-          <img src="https://via.placeholder.com/400x200?text=German+Records" alt="German Records" className="my-6 rounded-lg shadow-lg" />
-        </div>
-      );
-    }
-
-    function DNAGenealogySection() {
-      return (
-        <div id="dna-genealogy" className="section py-16 px-4 max-w-7xl mx-auto bg-gray-100">
-          <h2 className="text-3xl font-bold mb-6">DNA in Genealogical Research</h2>
-          <p className="text-lg mb-4">
-            DNA testing has revolutionized genealogy by uncovering biological connections. Key tips for using DNA:
-          </p>
-          <ul className="list-disc pl-6 mb-4">
-            <li>Take an autosomal DNA test with providers like AncestryDNA, MyHeritage, or FamilyTreeDNA.</li>
-            <li>Use GEDmatch to compare DNA across testing companies for broader matches.</li>
-            <li>Understand shared DNA segments to estimate relationships (e.g., centimorgans for cousins).</li>
-            <li>Join surname or haplogroup projects to connect with others researching similar lines.</li>
-          </ul>
-          <p className="text-lg mb-4">
-            Always verify DNA matches with traditional records to confirm relationships.
-          </p>
-          <img src="https://via.placeholder.com/400x200?text=DNA+Helix" alt="DNA Helix" className="my-6 rounded-lg shadow-lg" />
-        </div>
-      );
-    }
-
-    function AIGenealogySection() {
-      return (
-        <div id="ai-genealogy" className="section py-16 px-4 max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6">AI in Genealogical Research</h2>
-          <p className="text-lg mb-4">
-            Artificial Intelligence is transforming genealogy by automating tedious tasks and uncovering insights:
-          </p>
-          <ul className="list-disc pl-6 mb-4">
-            <li>Use AI tools like MyHeritage’s AI Record Finder™ for conversational record searches.</li>
-            <li>Leverage NLP (Natural Language Processing) to transcribe and translate old German scripts.</li>
-            <li>Employ AI to generate family history narratives or biographies (e.g., via ChatGPT).</li>
-            <li>Always verify AI-generated data against original records to ensure accuracy.</li>
-          </ul>
-          <p className="text-lg mb-4">
-            AI can save time but should complement, not replace, traditional research methods.
-          </p>
-          <img src="https://via.placeholder.com/400x200?text=AI+Analysis" alt="AI Analysis" className="my-6 rounded-lg shadow-lg" />
-        </div>
-      );
-    }
-
-    function ResourcesSection() {
-      return (
-        <div id="resources" className="section py-16 px-4 max-w-7xl mx-auto bg-gray-100">
-          <h2 className="text-3xl font-bold mb-6">Resources</h2>
-          <p className="text-lg mb-4">Explore these trusted websites for German genealogy, DNA, and AI tools:</p>
-          <ul className="list-disc pl-6 mb-4">
-            <li><a href="https://www.familysearch.org" className="text-blue-600 hover:underline">FamilySearch</a> - Free global records and collaborative family trees.</li>
-            <li><a href="https://www.myheritage.com" className="text-blue-600 hover:underline">MyHeritage</a> - AI-powered record searches and DNA matching.</li>
-            <li><a href="https://www.ancestry.com" className="text-blue-600 hover:underline">Ancestry</a> - Extensive German records and DNA testing.</li>
-            <li><a href="https://www.gedmatch.com" className="text-blue-600 hover:underline">GEDmatch</a> - Free DNA comparison tools.</li>
-            <li><a href="https://www.archion.de" className="text-blue-600 hover:underline">Archion</a> - German church records.</li>
-            <li><a href="https://www.germangenealogygroup.com" className="text-blue-600 hover:underline">German Genealogy Group</a> - Community support and resources.</li>
-          </ul>
-        </div>
-      );
-    }
-
-    function Footer() {
-      return (
-        <footer className="bg-gray-800 text-white py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p className="text-center">Contact us: info@germangenes.us</p>
-            <p className="text-center mt-2">
-              &copy; 2025 German Genes. All rights reserved.
-            </p>
-            <div className="flex justify-center space-x-4 mt-4">
-              <a href="https://www.familysearch.org" className="text-blue-300 hover:underline">FamilySearch</a>
-              <a href="https://www.myheritage.com" className="text-blue-300 hover:underline">MyHeritage</a>
-              <a href="https://www.ancestry.com" className="text-blue-300 hover:underline">Ancestry</a>
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="floating">Discover Your Central European Roots</h1>
+                    <p>Expert genealogy research guidance for Germany, Poland, Austria, Czechia, and Slovakia. Uncover your family's journey through history with modern tools and traditional research methods.</p>
+                    <div class="cta-buttons">
+                        <a href="#research" class="btn btn-primary">🔍 Start Your Research</a>
+                        <a href="#tools" class="btn btn-secondary">🛠️ Explore Tools</a>
+                    </div>
+                </div>
             </div>
-          </div>
-        </footer>
-      );
-    }
+        </section>
 
-    function App() {
-      return (
-        <div>
-          <NavBar />
-          <div className="pt-16">
-            <HeroSection />
-            <GermanGenealogySection />
-            <DNAGenealogySection />
-            <AIGenealogySection />
-            <ResourcesSection />
-            <Footer />
-          </div>
+        <section class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Why Choose German Genes?</h2>
+                    <p>Your comprehensive resource for Central European genealogy research, combining traditional methods with cutting-edge technology.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-research">🏛️</div>
+                        <h3>Expert Research Guidance</h3>
+                        <p>Navigate complex historical records across five countries with detailed research strategies, record explanations, and expert tips from years of hands-on experience.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon icon-dna">🧬</div>
+                        <h3>DNA Analysis</h3>
+                        <p>Understand your genetic genealogy results with comprehensive guides for interpreting DNA matches, ethnicity estimates, and connecting genetic evidence to documentary research.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon icon-ai">🤖</div>
+                        <h3>AI-Powered Research</h3>
+                        <p>Discover how artificial intelligence is revolutionizing genealogy research with tools for transcription, translation, record analysis, and family tree construction.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon icon-tools">⚡</div>
+                        <h3>Custom Research Tools</h3>
+                        <p>Access our suite of browser-based applications including family tree builders, Leeds chart generators, and DNA match downloaders for major testing companies.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon icon-blog">📝</div>
+                        <h3>Regular Updates</h3>
+                        <p>Stay current with the latest genealogy news, research techniques, record releases, and technological advances through our regularly updated blog and newsletters.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon icon-community">👥</div>
+                        <h3>Research Community</h3>
+                        <p>Connect with fellow researchers, share discoveries, ask questions, and collaborate on challenging genealogy problems within our supportive community.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="research-guides">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Country Research Guides</h2>
+                    <p>Comprehensive guides tailored to the unique records, history, and research challenges of each Central European country.</p>
+                </div>
+                <div class="guides-grid">
+                    <div class="guide-card" onclick="window.location.href='#germany'">
+                        <div class="guide-content">
+                            <span class="country-flag">🇩🇪</span>
+                            <h3>Germany Research</h3>
+                            <p>Navigate German church records, civil registration, and military documents across historical borders and political changes.</p>
+                            <ul class="guide-topics">
+                                <li>Church book interpretation</li>
+                                <li>Civil registration (1876+)</li>
+                                <li>Military records & conscription</li>
+                                <li>Historical German script reading</li>
+                                <li>Regional archive navigation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="guide-card" onclick="window.location.href='#poland'">
+                        <div class="guide-content">
+                            <span class="country-flag">🇵🇱</span>
+                            <h3>Poland Research</h3>
+                            <p>Master the complexities of Polish records across three partition periods and understand modern Polish archives.</p>
+                            <ul class="guide-topics">
+                                <li>Partition-era records</li>
+                                <li>Catholic parish registers</li>
+                                <li>Russian, Austrian, Prussian admin</li>
+                                <li>Modern Polish civil records</li>
+                                <li>Jewish community records</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="guide-card" onclick="window.location.href='#austria'">
+                        <div class="guide-content">
+                            <span class="country-flag">🇦🇹</span>
+                            <h3>Austria Research</h3>
+                            <p>Explore Austrian parish records, Habsburg-era documentation, and understand the Austro-Hungarian Empire's impact.</p>
+                            <ul class="guide-topics">
+                                <li>Austrian parish records</li>
+                                <li>Habsburg bureaucracy</li>
+                                <li>Conscription records</li>
+                                <li>Court and notarial records</li>
+                                <li>Provincial archives</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="guide-card" onclick="window.location.href='#czechia'">
+                        <div class="guide-content">
+                            <span class="country-flag">🇨🇿</span>
+                            <h3>Czechia (Bohemia/Moravia)</h3>
+                            <p>Research Czech lands from the Austrian period through independence, including Bohemian and Moravian records.</p>
+                            <ul class="guide-topics">
+                                <li>Bohemian church records</li>
+                                <li>Austrian period (pre-1918)</li>
+                                <li>Land records & cadastral maps</li>
+                                <li>Census substitutes</li>
+                                <li>Czech language basics</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="guide-card" onclick="window.location.href='#slovakia'">
+                        <div class="guide-content">
+                            <span class="country-flag">🇸🇰</span>
+                            <h3>Slovakia Research</h3>
+                            <p>Navigate Slovak records within the Hungarian Kingdom context and understand modern Slovak genealogy resources.</p>
+                            <ul class="guide-topics">
+                                <li>Hungarian Kingdom records</li>
+                                <li>Greek Catholic traditions</li>
+                                <li>Slovak ethnic German records</li>
+                                <li>Conscription & taxation lists</li>
+                                <li>Modern Slovak archives</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog" class="blog-preview">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Latest Research Insights</h2>
+                    <p>Stay updated with the latest genealogy research techniques, record discoveries, and technological advances.</p>
+                </div>
+                <div class="blog-grid">
+                    <article class="blog-card">
+                        <div class="blog-image">🧬</div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span>📅 March 2025</span>
+                                <span>🏷️ DNA Research</span>
+                            </div>
+                            <h3>AI-Enhanced DNA Triangulation: Revolutionary Techniques for 2025</h3>
+                            <p>Discover how artificial intelligence is transforming DNA match analysis, making complex triangulation accessible to every genealogist and uncovering connections that traditional methods miss.</p>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                    </article>
+                    <article class="blog-card">
+                        <div class="blog-image">🏛️</div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span>📅 February 2025</span>
+                                <span>🏷️ German Records</span>
+                            </div>
+                            <h3>Decoding German Parish Records: A Complete Paleography Guide</h3>
+                            <p>Master the art of reading historical German handwriting with our comprehensive guide to Kurrentschrift and Sütterlin scripts, including common abbreviations and religious terminology.</p>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                    </article>
+                    <article class="blog-card">
+                        <div class="blog-image">🤖</div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span>📅 January 2025</span>
+                                <span>🏷️ AI Tools</span>
+                            </div>
+                            <h3>ChatGPT for Genealogists: 50 Practical Research Prompts</h3>
+                            <p>Harness the power of AI for your family history research with tested prompts for transcription, translation, analysis, and research planning. Transform your genealogy workflow today.</p>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                    </article>
+                </div>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="#" class="btn btn-primary">📖 View All Posts</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="dna" class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>DNA & AI in Genealogy</h2>
+                    <p>Explore the cutting-edge intersection of genetic genealogy and artificial intelligence.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-dna">🔬</div>
+                        <h3>DNA Interpretation</h3>
+                        <p>Learn to analyze autosomal DNA, Y-DNA, and mtDNA results for Central European ancestry, including ethnicity breakdowns and match strategies.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon icon-ai">🧠</div>
+                        <h3>AI Record Analysis</h3>
+                        <p>Utilize AI tools for transcribing historical documents, translating records, and identifying potential research leads from complex genealogical data.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon icon-tools">⚙️</div>
+                        <h3>Advanced Techniques</h3>
+                        <p>Master advanced genetic genealogy concepts like triangulation, chromosome mapping, and using AI for family reconstruction and hypothesis testing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools" class="tools-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Research Tools & Applications</h2>
+                    <p>Access our custom-built suite of genealogy tools designed to streamline your research workflow.</p>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="openTool('family-tree')">
+                        <span class="tool-icon">🌳</span>
+                        <h3>Interactive Family Tree Builder</h3>
+                        <p>Create beautiful, interactive family trees with drag-and-drop functionality, photo integration, and export capabilities for sharing your research.</p>
+                        <div class="btn btn-secondary" style="background: rgba(255,255,255,0.2); border: none; color: white;">Launch Tool</div>
+                    </div>
+                    <div class="tool-card" onclick="openTool('leeds-chart')">
+                        <span class="tool-icon">📊</span>
+                        <h3>Leeds Chart Generator</h3>
+                        <p>Automatically generate Leeds charts from your DNA match data to visualize and organize your genetic connections by ancestral lines.</p>
+                        <div class="btn btn-secondary" style="background: rgba(255,255,255,0.2); border: none; color: white;">Generate Chart</div>
+                    </div>
+                    <div class="tool-card" onclick="openTool('dna-downloader')">
+                        <span class="tool-icon">⬇️</span>
+                        <h3>DNA Match Downloader</h3>
+                        <p>Export your DNA match data from Ancestry, MyHeritage, and 23andMe for analysis in spreadsheets or specialized genealogy software.</p>
+                        <div class="btn btn-secondary" style="background: rgba(255,255,255,0.2); border: none; color: white;">Download Data</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" style="background: white;">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Featured Resources</h2>
+                    <p>Essential resources and references for Central European genealogy research.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">📚</div>
+                        <h3>Record Collections Database</h3>
+                        <p>Comprehensive database of Central European genealogy record collections, including archives, online databases, and digitization projects.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">🗺️</div>
+                        <h3>Historical Maps & Gazetteers</h3>
+                        <p>Interactive historical maps showing changing borders, place name evolution, and administrative divisions across Central Europe.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">🔤</div>
+                        <h3>Language & Translation Guides</h3>
+                        <p>Essential vocabulary, common phrases, and translation resources for German, Polish, Czech, Slovak, and Latin genealogy records.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>German Genes</h3>
+                    <p>Your trusted resource for Central European genealogy research. Combining traditional research methods with modern technology to help you discover your family's story.</p>
+                    <p style="margin-top: 1rem;">
+                        <strong>Specializing in:</strong><br>
+                        Germany • Poland • Austria • Czechia • Slovakia
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3>Research Guides</h3>
+                    <ul class="footer-links">
+                        <li><a href="#germany">German Records</a></li>
+                        <li><a href="#poland">Polish Research</a></li>
+                        <li><a href="#austria">Austrian Archives</a></li>
+                        <li><a href="#czechia">Czech Resources</a></li>
+                        <li><a href="#slovakia">Slovak Records</a></li>
+                        <li><a href="#general">General Techniques</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Tools & Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#family-tree">Family Tree Builder</a></li>
+                        <li><a href="#leeds-chart">Leeds Chart Generator</a></li>
+                        <li><a href="#dna-tools">DNA Match Tools</a></li>
+                        <li><a href="#translation">Translation Aids</a></li>
+                        <li><a href="#maps">Historical Maps</a></li>
+                        <li><a href="#databases">Record Databases</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Latest Updates</h3>
+                    <ul class="footer-links">
+                        <li><a href="#blog">Research Blog</a></li>
+                        <li><a href="#news">Genealogy News</a></li>
+                        <li><a href="#ai-updates">AI in Genealogy</a></li>
+                        <li><a href="#record-releases">New Record Releases</a></li>
+                        <li><a href="#tutorials">Video Tutorials</a></li>
+                        <li><a href="#newsletter">Newsletter Archive</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 German Genes (germangenes.us). All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Use</a> | <a href="#contact">Contact</a></p>
+            </div>
         </div>
-      );
-    }
+    </footer>
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
+    <script>
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenu.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Tool launcher function
+        function openTool(toolName) {
+            const toolCard = event.currentTarget;
+            toolCard.classList.add('tool-loading');
+            
+            // Simulate tool loading (replace with actual tool URLs)
+            setTimeout(() => {
+                toolCard.classList.remove('tool-loading');
+                
+                switch(toolName) {
+                    case 'family-tree':
+                        alert('Family Tree Builder would open here!\n\nThis tool would provide:\n• Drag-and-drop family tree creation\n• Photo and document integration\n• Export to GEDCOM format\n• Collaborative family tree sharing');
+                        break;
+                    case 'leeds-chart':
+                        alert('Leeds Chart Generator would open here!\n\nThis tool would provide:\n• Automatic chart generation from DNA data\n• Color-coding by ancestral lines\n• Export to PDF and image formats\n• Integration with major DNA testing sites');
+                        break;
+                    case 'dna-downloader':
+                        alert('DNA Match Downloader would open here!\n\nThis tool would provide:\n• Download matches from Ancestry, MyHeritage, 23andMe\n• CSV export for spreadsheet analysis\n• Data filtering and sorting options\n• Privacy-compliant data handling');
+                        break;
+                }
+            }, 1500);
+        }
+
+        // Add scroll-based animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections for animation
+        document.querySelectorAll('.feature-card, .guide-card, .blog-card, .tool-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Add dynamic navigation highlighting
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Add some interactive feedback for cards
+        document.querySelectorAll('.feature-card, .guide-card, .blog-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Newsletter signup simulation
+        function subscribeNewsletter() {
+            const email = prompt('Enter your email address to subscribe to our genealogy newsletter:');
+            if (email && email.includes('@')) {
+                alert(`Thank you for subscribing! 📧\n\nYou'll receive:\n• Weekly research tips\n• New record release notifications\n• AI tool updates\n• Exclusive research guides\n\nWelcome to the German Genes community!`);
+            }
+        }
+
+        // Add newsletter CTA to hero section
+        const heroButtons = document.querySelector('.cta-buttons');
+        const newsletterBtn = document.createElement('a');
+        newsletterBtn.href = '#';
+        newsletterBtn.className = 'btn btn-secondary';
+        newsletterBtn.innerHTML = '📧 Get Updates';
+        newsletterBtn.onclick = (e) => {
+            e.preventDefault();
+            subscribeNewsletter();
+        };
+        heroButtons.appendChild(newsletterBtn);
+    </script>
 </body>
 </html>
